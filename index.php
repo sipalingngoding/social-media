@@ -1,44 +1,17 @@
 <?php
 
-require_once "Data/todoList.php";
-require_once "Function/input.php";
-require_once "Logic/add.php";
-require_once "Logic/delete.php";
-require_once "Logic/show.php";
-require_once "Logic/update.php";
-require_once "View/viewShow.php";
-require_once "View/viewAdd.php";
-require_once "View/viewDelete.php";
-require_once "View/viewUpdate.php";
+use View\TodolistView;
 
-echo "----------Aplikasi Todolist------------\n";
+require_once __DIR__."/Data/todoList.php";
+require_once __DIR__."/Function/input.php";
+require_once __DIR__."/Model/Todo.php";
+require_once __DIR__."/Model/Todo.php";
+require_once __DIR__."/Repository/TodolistRepository.php";
+require_once __DIR__."/Service/TodolistService.php";
+require_once __DIR__."/View/TodolistView.php";
 
-while (true) {
-    echo "Perhatikan pilihan dibawah ini\n";
-    echo "1. Show Todolist\n";
-    echo "2. Add Todolist\n";
-    echo "3. Delete Todolist\n";
-    echo "4. Update Todolist\n";
-    $pilihan = input("Masukan pilihan anda");
-    switch ($pilihan){
-        case "1":
-            viewShowTodolist();
-            break;
-        case "2":
-            viewAddTodolist();
-            break;
-        case "3":
-            viewDeleteTodolist();
-            break;
-        case "4":
-            viewUpdateTodolist();
-            break;
-        default:
-            echo "Inputan anda salah\n";
-            break;
-    }
-    $check = input("Lanjut?? Y/N");
-    if(strtoupper($check) === 'N') break;
-}
+global $todoList;
 
-echo "-------------Selesai-----------\n";
+$todoListView = new TodolistView($todoList);
+
+$todoListView->runApp();

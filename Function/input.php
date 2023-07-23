@@ -1,5 +1,7 @@
 <?php
 
+namespace Function;
+
 function input(string $information):string
 {
     echo "$information: ";
