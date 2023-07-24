@@ -1,11 +1,9 @@
 <?php
 
 
-use Model\Todo;
 use Repository\TodolistRepository;
 use Service\TodolistService;
 
-require_once __DIR__."/../Data/todoList.php";
 require_once __DIR__."/../Model/Todo.php";
 require_once __DIR__."/../Repository/TodolistRepository.php";
 require_once __DIR__."/../Service/TodolistService.php";

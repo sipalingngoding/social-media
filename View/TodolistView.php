@@ -4,14 +4,15 @@ namespace View;
 
 use Repository\TodolistRepository;
 use Service\TodolistService;
+use function Function\connection;
 use function Function\input;
 
 class TodolistView
 {
     private TodolistService $todolistService;
-    public function __construct(array $todoList)
+    public function __construct()
     {
-        $this->todolistService = new TodolistService(new TodolistRepository($todoList));
+        $this->todolistService = new TodolistService(new TodolistRepository(connection()));
     }
 
     public function runApp():void
@@ -57,9 +58,9 @@ class TodolistView
     public function show():void
     {
         echo "---Show Todolist---\n";
-        foreach ($this->todolistService->findAll() as $no=>$value)
+        foreach ($this->todolistService->findAll() as $id=>$todo)
         {
-            echo ($no+1)." $value\n";
+            echo ($id+1).". ".$todo['todo']." (id = ".$todo['id'].")".PHP_EOL;
         }
     }
 
@@ -84,13 +85,13 @@ class TodolistView
     {
         echo "---Delete Todolist---\n";
         $this->show();
-        $no = input("Masukan no todo yang ingin dihapus (x batal)");
-        if($no === 'x'){
+        $id = input("Masukan id todo yang ingin dihapus (x batal)");
+        if($id === 'x'){
             echo "Delete todo dibatalkan\n";
             return;
         }
         try {
-            $this->todolistService->delete($no-1);
+            $this->todolistService->delete($id);
             echo "Berhasil dihapus\n";
         }catch (\Exception $exception)
         {
@@ -102,14 +103,14 @@ class TodolistView
     {
         echo "---Update Todolist---\n";
         $this->show();
-        $no = input("Masukan no todo yang ingin diupdate (x batal)");
-        if($no === 'x'){
+        $id = input("Masukan id todo yang ingin diupdate (x batal)");
+        if($id === 'x'){
             echo "Update todo dibatalkan\n";
             return;
         }
         $todo = input("Masukan todo");
         try {
-            $this->todolistService->update($no-1,$todo);
+            $this->todolistService->update($id,$todo);
             echo "Berhasil diperbarui\n";
         }catch (\Exception $exception)
         {

@@ -7,33 +7,40 @@ use Model\Todo;
 
 class TodolistRepository
 {
-    private array $todoList;
-    public function __construct(array $todoList)
+    private \PDO $pdo;
+    public function __construct(\PDO $pdo)
     {
-        $this->todoList = $todoList;
+        $this->pdo = $pdo;
     }
     public function findAll():array
     {
-        return $this->todoList;
+        $PDOStatement = $this->pdo->prepare("SELECT * FROM todolist");
+        $PDOStatement->execute();
+        return $PDOStatement->fetchAll(\PDO::FETCH_ASSOC);
     }
 
     public function add(Todo $todo):void
     {
-        $this->todoList[] = $todo->getTodo();
+        $PDOStatement = $this->pdo->prepare("INSERT INTO todolist(todo) VALUES (?)");
+        $PDOStatement->execute([$todo->getTodo()]);
     }
 
     public function delete(Todo $todo):void
     {
-        array_splice($this->todoList,$todo->getNo(),1);
+        $PDOStatement = $this->pdo->prepare("DELETE FROM todolist WHERE id=?");
+        $PDOStatement->execute([$todo->getNo()]);
     }
 
     public function update(Todo $todo):void
     {
-        array_splice($this->todoList,$todo->getNo(),1,$todo->getTodo());
+        $PDOStatement = $this->pdo->prepare("UPDATE todolist SET todo=? WHERE id=?");
+        $PDOStatement->execute([$todo->getTodo(),$todo->getNo()]);
     }
 
     public function checkTodo(Todo $todo):bool
     {
-        return array_key_exists($todo->getNo(),$this->todoList);
+        $PDOStatement = $this->pdo->prepare("SELECT * FROM todolist WHERE id=?");
+        $PDOStatement->execute([$todo->getNo()]);
+        return (bool)$PDOStatement->fetch(\PDO::FETCH_ASSOC);
     }
 }
