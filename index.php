@@ -1,17 +1,13 @@
 <?php
 
-use View\TodolistView;
+$method = $_SERVER['REQUEST_METHOD'];
 
-require_once __DIR__."/Function/input.php";
-require_once __DIR__."/Function/connection.php";
-require_once __DIR__."/Model/Todo.php";
-require_once __DIR__."/Model/Todo.php";
-require_once __DIR__."/Repository/TodolistRepository.php";
-require_once __DIR__."/Service/TodolistService.php";
-require_once __DIR__."/View/TodolistView.php";
+require __DIR__."/inc/header.php";
 
-global $todoList;
+if($method === 'GET'){
+    require __DIR__."/inc/get.php";
+}elseif ($method  === 'POST'){
+    require __DIR__."/inc/post.php";
+}
 
-$todoListView = new TodolistView();
-
-$todoListView->runApp();
+require __DIR__."/inc/footer.php";
