@@ -111,12 +111,15 @@ a {
 }
 
 a:hover {
-    text-decoration: underline;
+    text-decoration: none;
 }
 a:focus {
     box-shadow: var(--button-focus);
     border-radius: 3px;
     outline: none;
+}
+a:not(.btn):hover {
+    text-decoration: underline;
 }
 
 /*  Forms
@@ -249,7 +252,8 @@ textarea.success:focus {
 }
 
 /* buttons DO NOT USE input with type submit or button */
-button {
+button,
+menu > a {
     background: var(--primary);
     color: var(--button-text);
     border-radius: 0.25rem;
@@ -260,15 +264,19 @@ button {
     border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
     text-align: center;
     padding: 0.375rem 0.75rem;
+    text-decoration: none;
+    user-select: none;
 }
 
-button:hover {
+button:hover,
+menu > a:hover {
     background: var(--secondary);
     border-color: var(--border-color);
     cursor: pointer;
 }
 
-button:focus {
+button:focus,
+menu > a:focus {
     outline: none;
     color: var(--button-text);
     background-color: var(--secondary);
@@ -352,4 +360,39 @@ input[type="radio"] {
 
 .error {
     color: var(--error);
+}
+
+/* Specific */
+.total {
+    font-weight: bold;
+    border-top: solid 1px #ccc;
+    margin-top: 1rem;
+}
+
+li {
+    margin-left: 2rem;
+}
+ul li {
+    display: flex;
+    justify-content: space-between;
+    margin-left: 0;
+}
+
+main {
+    text-align: center;
+    min-width: 400px;
+}
+
+h1 {
+    padding: 5px 0;
+    font-size: 1.4rem;
+    font-weight: normal;
+    text-align: center;
+    color: var(--text-bright);
+}
+
+button,
+menu > a {
+    display: block;
+    width: 100%;
 }
