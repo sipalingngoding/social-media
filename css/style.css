@@ -80,25 +80,6 @@ body {
     color: var(--text-main);
     background: var(--background-body);
     text-rendering: optimizeLegibility;
-
-    /* center by default */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 1rem;
-}
-
-input,
-button,
-textarea,
-select {
-    font: inherit;
-}
-
-li {
-    margin-left: 1.5rem;
 }
 
 .center {
@@ -115,7 +96,6 @@ main {
     border-radius: 5px;
     box-shadow: var(--box-shadow);
     max-width: 450px;
-    width: 400px;
     padding: 1rem;
 }
 
@@ -198,12 +178,15 @@ form > div {
 input + small {
     color: var(--error);
 }
+label + small {
+    color: var(--error);
+    display: block;
+}
 /* show a label on the form */
 label {
     display: inline-block;
     margin-bottom: 5px;
     vertical-align: top;
-    width: 100%;
 }
 
 /* input, textarea */
@@ -293,11 +276,6 @@ button:focus {
     box-shadow: var(--button-focus);
 }
 
-form > button {
-    display: block;
-    width: 100%;
-}
-
 /* labels for radio  & checkbox*/
 form > div > div > label {
     width: auto;
@@ -374,10 +352,4 @@ input[type="radio"] {
 
 .error {
     color: var(--error);
-}
-
-section h2 {
-    text-align: center;
-    font-weight: 400;
-    margin-bottom: 1rem;
 }

@@ -1,20 +1,10 @@
-<?php if(isset($errors['login'])) { ?>
-    <h4 style="color: red"><?= $errors['login'] ?></h4>
-<?php } ?>
 <form method="post">
     <div>
-        <label for="email">Email:</label>
-        <input id="email" type="text" name="email" placeholder="Enter your email" value="<?= $inputs['email'] ?? '' ?>" class="<?php isset($errors['email']) && print 'error' ?>" />
-        <small><?= $errors['email'] ?? '' ?></small>
+        <label for="agree"> <input type="checkbox" name="agree" value="yes" id="agree" /> I agree to the <a href="#" title="term of service"> Term of Service</a></label>
+        <small class="error"><?= $errors['agree'] ?? "" ?>  </small>
     </div>
 
     <div>
-        <label for="password">Password:</label>
-        <input id="password" type="password" name="password" placeholder="Enter your password" class="<?php isset($errors['password']) && print 'error' ?>"/>
-        <small><?= $errors['password'] ?? '' ?></small>
-    </div>
-
-    <div>
-        <button type="submit">Login</button>
+        <button type="submit">Join Us</button>
     </div>
 </form>

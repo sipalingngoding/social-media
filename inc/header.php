@@ -6,5 +6,5 @@
     <link rel="stylesheet" href="css/style.css">
     <title>PHP Form</title>
 </head>
-<body>
+<body class="center">
 <main>
