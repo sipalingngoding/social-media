@@ -1,18 +1,15 @@
-<?php global $choices ?>
+<?php global $colors ?>
 <?php if(!isset($error)) { ?>
     <form method="post">
-        <h1>Pilih metode pendaftaran</h1>
-        <ul>
-            <?php foreach ($choices as $choice) { ?>
-                <li>
-                    <div>
-                        <input type="radio" name="choice" value="<?= $choice ?>" id="<?= $choice ?>" />
-                        <label for="<?= $choice ?>"><?= ucfirst($choice) ?></label>
-                    </div>
-                </li>
+        <h1>Pilih warna</h1>
+        <label for="color">Background Color:</label>
+        <select name="color" id="color">
+            <option value="">Pilih warna</option>
+            <?php foreach ($colors as $color) { ?>
+                <option value="<?= $color?>"><?= ucfirst($color) ?></option>
             <?php } ?>
-        </ul>
-        <div>
+        </select>
+        <div style="margin-top: 1.1rem">
             <button type="submit">Submit</button>
         </div>
     </form>

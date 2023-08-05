@@ -4,7 +4,7 @@ $method = $_SERVER['REQUEST_METHOD'];
 
 require __DIR__."/inc/header.php";
 
-$choices = ["Email","Phone","Telegram"];
+$colors = ["green","blue","red","yellow"];
 
 if($method === 'GET'){
     require __DIR__."/inc/get.php";
