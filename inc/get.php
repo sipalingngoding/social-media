@@ -1,20 +1,19 @@
-<?php global $pizza_toppings ?> <p><img src="https://www.phptutorial.net/app/multiplecheckboxes/img/pizza.svg" height="72" width="72" title="Pizza Toppings" alt="pizza"></p>
+<?php global $choices ?>
 <?php if(!isset($error)) { ?>
     <form method="post">
-        <h1>Please select your pizza toppings</h1>
+        <h1>Pilih metode pendaftaran</h1>
         <ul>
-            <?php foreach ($pizza_toppings as $topping=>$price) { ?>
+            <?php foreach ($choices as $choice) { ?>
                 <li>
                     <div>
-                        <input type="checkbox" name="pizza_toppings[]" value="<?= $topping ?>" id="pizza_topping_<?= $topping ?>" />
-                        <label for="pizza_topping_<?= $topping ?>"><?php echo ucfirst($topping) ?></label>
+                        <input type="radio" name="choice" value="<?= $choice ?>" id="<?= $choice ?>" />
+                        <label for="<?= $choice ?>"><?= ucfirst($choice) ?></label>
                     </div>
-                    <span><?= '$' . $price ?></span>
                 </li>
             <?php } ?>
         </ul>
         <div>
-            <button type="submit">Order Now</button>
+            <button type="submit">Submit</button>
         </div>
     </form>
 <?php } else { ?>
