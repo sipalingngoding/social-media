@@ -12,6 +12,12 @@
     </div>
 
     <div>
-        <button type="submit">Login</button>
+        <label for="confPassword">Confirm Password:</label>
+        <input id="confPassword" type="password" name="confPassword" placeholder="Enter your confirm password" class="<?php isset($errors['confPassword']) && print 'error' ?>"/>
+        <small><?= $errors['confPassword'] ?? '' ?></small>
+    </div>
+
+    <div>
+        <button type="submit">Register</button>
     </div>
 </form>

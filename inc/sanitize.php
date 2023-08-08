@@ -1,5 +1,5 @@
 <?php
-const FILTERS = [
+const FILTERS_SANITIZE = [
     'string' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
     'string[]' => [
         'filter' => FILTER_SANITIZE_FULL_SPECIAL_CHARS,
@@ -37,7 +37,7 @@ function array_trim(array $items):array
     return $result;
 }
 
-function sanitize(array $inputs, array $fields, array $FILTERS = FILTERS, bool $trim = true ):array
+function sanitize(array $inputs, array $fields, array $FILTERS = FILTERS_SANITIZE, bool $trim = true ):array
 {
     $options = array_map(fn($field) => $FILTERS[$field], $fields);
     $data = filter_var_array($inputs, $options);
