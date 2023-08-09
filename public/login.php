@@ -3,7 +3,10 @@
 
 require_once __DIR__."/../src/bootstrap.php";
 
+not_login();
+
 view("header",['title'=>'Login','css'=>'login']);
+
 
 if(is_get_request()){
     view("login");

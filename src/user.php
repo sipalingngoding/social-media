@@ -1,6 +1,8 @@
 <?php
 
-$pdo = connection() ? : die('Gagal connect');
+use JetBrains\PhpStorm\NoReturn;
+
+$pdo = connection();
 /**
  * @throws Exception
  */
@@ -37,4 +39,45 @@ function find_by_email(string $email):?array
     $statement = $pdo->prepare("SELECT * FROM users WHERE email = ?");
     $statement->execute([$email]);
     return $statement->fetch(PDO::FETCH_ASSOC) ? : null;
+}
+
+function find_by_userid(string $userid):?array
+{
+    global $pdo;
+    $statement = $pdo->prepare("SELECT * FROM users WHERE user_id = ?");
+    $statement->execute([$userid]);
+    return $statement->fetch(PDO::FETCH_ASSOC) ? : null;
+}
+
+function must_login():void
+{
+    $user = $_COOKIE['user'] ?? null;
+    if(!$user) redirect_with_message('login.php','Silahkan login');
+    if(!str_contains($user,'_')) redirect_with_message('login.php','Silahkan login');
+    [$userid,$username] = explode("_",$user);
+    $check = find_by_userid($userid) && find_by_username($username);
+    if(!$check) redirect_with_message('login.php','Silahkan login');
+}
+
+function not_login():void
+{
+    $user = $_COOKIE['user'] ?? null;
+    if(!$user) return;
+    if(!str_contains($user,'_')) return;
+    [$userid,$username] = explode("_",$user);
+    $check = find_by_userid($userid) && find_by_username($username);
+    if(!$check) return;
+    redirect("index.php");
+}
+
+#[NoReturn] function logout():void
+{
+    setcookie('user','',1,'/');
+    redirect_with_message('login.php','Berhasil logout',FLASH_SUCCESS);
+}
+
+function current_user():array
+{
+    $user = explode('_',$_COOKIE['user']);
+    return find_by_userid($user[0]);
 }
