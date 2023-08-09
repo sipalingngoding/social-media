@@ -15,14 +15,14 @@ const DEFAULT_VALIDATION_ERRORS = [
     'same'=>'The %s must be the same as the %s',
 ];
 
-
-function validate(array $inputs, array $fields, array &$errors = []):array{
+function validate(array $inputs, array $fields,array &$errors = [], array $messages = DEFAULT_VALIDATION_ERRORS):array{
     foreach ($inputs as $key=>$input)
     {
         $rules = explode("|",$fields[$key]);
         $rules = array_map(fn($rule)=>trim($rule),$rules);
         foreach ($rules as $rule)
         {
+            if($rule === 'continue') continue;
             if(preg_match("/\d/",$rule)){
                 preg_match_all('/\d+/',$rule,$matched);
                 $arguments = [$input,...$matched[0]];
@@ -40,7 +40,7 @@ function validate(array $inputs, array $fields, array &$errors = []):array{
             }
             $check = call_user_func_array($function,$arguments);
             $rule === 'same' && $arguments = [$input,substr($matched[0][0],1)];
-            if(!$check && !isset($errors[$key])) $errors[$key] = sprintf(DEFAULT_VALIDATION_ERRORS[$rule],$key,...array_slice($arguments,1));
+            if(!$check && !isset($errors[$key])) $errors[$key] = sprintf($messages[$rule],$key,...array_slice($arguments,1));
         }
     }
     return $errors;
@@ -101,3 +101,4 @@ function check_url($url):bool
 {
     return filter_var($url,FILTER_VALIDATE_URL);
 }
+

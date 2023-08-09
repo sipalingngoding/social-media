@@ -1,4 +1,9 @@
 <form method="post">
+    <?php if(isset($error)) { ?>
+        <div class="alert alert-danger" role="alert">
+            <?= $error ?>
+        </div>
+    <?php } ?>
     <div>
         <label for="email">Email:</label>
         <input id="email" type="text" name="email" placeholder="Enter your email" value="<?= $inputs['email'] ?? '' ?>" class="<?php isset($errors['email']) && print 'error' ?>" />

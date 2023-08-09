@@ -1,7 +1,9 @@
 <?php
 
 session_start();
+require_once __DIR__."/inc/sanitize.php";
 require_once __DIR__."/inc/validate.php";
+require_once __DIR__."/inc/filter.php";
 require_once __DIR__."/inc/flash.php";
 
 $method = $_SERVER['REQUEST_METHOD'];
