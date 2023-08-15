@@ -52,3 +52,11 @@ function session_flash(...$keys):array
     flash('flash_'.uniqid(),$message,$type);
     redirect($url);
 }
+
+function timestamp(string $time):int
+{
+    [$tanggal,$jam] = explode("T",$time);
+    $tanggal = explode('-',$tanggal);
+    $jam = explode(':',$jam);
+    return mktime($jam[0],$jam[1],00,$tanggal[1],$tanggal[2],$tanggal[0]);
+}

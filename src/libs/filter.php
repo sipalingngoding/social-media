@@ -1,9 +1,13 @@
 <?php
 
-function filter(array $keys,array $fields,int $input_type = 0, array $messages = DEFAULT_VALIDATION_ERRORS):array
+function filter(array $keys,array $fields,int $input_type = 0, array $messages = []):array
 {
     $errors = [];
     $data = [];
+    foreach (DEFAULT_VALIDATION_ERRORS as $key=>$ERROR){
+        if(!isset($messages[$key])) $messages[$key] = $ERROR;
+    }
+
     foreach ($keys as $key){
         $is_exist = filter_has_var($input_type,$key);
         if(!$is_exist){

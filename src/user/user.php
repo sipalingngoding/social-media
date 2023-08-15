@@ -2,7 +2,11 @@
 
 use JetBrains\PhpStorm\NoReturn;
 
-$pdo = connection();
+try {
+    $pdo = connection();
+}catch (PDOException $exception){
+    die($exception->getMessage());
+}
 /**
  * @throws Exception
  */
@@ -19,6 +23,28 @@ function create(string $username, string $email, string $password):void
         // save
         $statement = $pdo->prepare("INSERT INTO users(user_id,username,email,password,created_at,updated_at) VALUES (?,?,?,?,?,?)");
         $statement->execute([uniqid(),$username,$email,$hash_password,$created_at,$created_at]);
+    }catch (Exception $exception)
+    {
+        throw new Exception($exception->getMessage());
+    }
+}
+
+/**
+ * @throws Exception
+ */
+function update(string $username, string $email, string $password, string $userid, ?string $photo):void
+{
+    global $pdo;
+    try {
+        $user = find_by_userid($userid);
+        if($user['username'] !== $username){
+            find_by_username($username) && throw new Exception('Username telah digunakan');
+        }
+        if($user['email'] !== $email){
+            find_by_email($email) && throw new Exception('Email telah digunakan');
+        }
+        $statement = $pdo->prepare("UPDATE users SET username = ?, email = ?, password = ?, updated_at = ?, photo = ? WHERE user_id = ?");
+        $statement->execute([$username,$email,$password,date("Y-m-d H:i:s"),$photo,$userid]);
     }catch (Exception $exception)
     {
         throw new Exception($exception->getMessage());
@@ -49,25 +75,23 @@ function find_by_userid(string $userid):?array
     return $statement->fetch(PDO::FETCH_ASSOC) ? : null;
 }
 
-function must_login():void
+function is_login():bool
 {
     $user = $_COOKIE['user'] ?? null;
-    if(!$user) redirect_with_message('login.php','Silahkan login');
-    if(!str_contains($user,'_')) redirect_with_message('login.php','Silahkan login');
+    if(!$user) return false;
+    if(!str_contains($user,'_')) return false;
     [$userid,$username] = explode("_",$user);
-    $check = find_by_userid($userid) && find_by_username($username);
-    if(!$check) redirect_with_message('login.php','Silahkan login');
+    return find_by_userid($userid) && find_by_username($username);
+}
+
+function must_login():void
+{
+    if(!is_login()) redirect_with_message('login.php','Silahkan login');
 }
 
 function not_login():void
 {
-    $user = $_COOKIE['user'] ?? null;
-    if(!$user) return;
-    if(!str_contains($user,'_')) return;
-    [$userid,$username] = explode("_",$user);
-    $check = find_by_userid($userid) && find_by_username($username);
-    if(!$check) return;
-    redirect("index.php");
+    if(is_login()) redirect("index.php");
 }
 
 #[NoReturn] function logout():void

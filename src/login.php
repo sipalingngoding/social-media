@@ -1,7 +1,7 @@
 <?php
 
 
-[$inputs,$errors] = filter(['email','password'],['email'=>'email;required | email','password'=>'string;required']);
+[$inputs,$errors] = filter(['email','password'],['email'=>'email;required | email','password'=>'string;required'],INPUT_POST,['required'=>'Mohon inputkan %s']);
 
 if(sizeof($errors) > 0){
     flash("login",array_values($errors)[0],FLASH_ERROR);

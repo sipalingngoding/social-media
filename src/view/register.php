@@ -35,6 +35,7 @@
                             </label>
                             <small><?= $errors['agree'] ?? "" ?></small>
                         </div>
+                        <a href="login.php">Login disini</a>
                         <button type="submit" class="btn btn-primary btn-block form-control mt-2">Register</button>
                     </form>
                 </div>

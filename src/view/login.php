@@ -19,6 +19,7 @@
                             <label for="password">Password</label>
                             <input type="password" class="form-control" id="password" name="password">
                         </div>
+                        <a href="register.php">register disini</a>
                         <button type="submit" class="btn btn-success btn-block form-control mt-2">Login</button>
                     </form>
                 </div>
