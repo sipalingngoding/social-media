@@ -1,6 +1,3 @@
-<?php
-    $inputs = session_flash('inputs')['inputs'];
-?>
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-6">
@@ -9,7 +6,7 @@
                     <h3 class="text-center">Login</h3>
                 </div>
                 <div class="card-body">
-                    <?php flash(); ?>
+                    <?php \SipalingNgoding\MVC\libs\Flash::flash(); ?>
                     <form method="post">
                         <div class="form-group">
                             <label for="email">Email</label>
@@ -19,7 +16,7 @@
                             <label for="password">Password</label>
                             <input type="password" class="form-control" id="password" name="password">
                         </div>
-                        <a href="register.php">register disini</a>
+                        <a href="/register">register disini</a>
                         <button type="submit" class="btn btn-success btn-block form-control mt-2">Login</button>
                     </form>
                 </div>

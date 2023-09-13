@@ -1,15 +1,28 @@
 <?php
 
-require_once __DIR__."/../src/bootstrap.php";
+namespace SipalingNgoding\MVC;
 
-must_login();
+session_start();
+date_default_timezone_set('Asia/Jakarta');
 
-$user = current_user();
-$todoList = findAllTodo($user['user_id']);
+use SipalingNgoding\MVC\app\Database;
+use SipalingNgoding\MVC\app\Router;
+use SipalingNgoding\MVC\controller\homeController;
+use SipalingNgoding\MVC\controller\userController;
+use SipalingNgoding\MVC\middleware\AuthenticationMiddleware;
 
-view('header',['title'=>'Home']);
+require __DIR__."/../vendor/autoload.php";
 
-view('index',['user'=>$user,'todoList'=>$todoList]);
+Database::getConnection('run');
 
-view('footer',['js'=>'index']);
+Router::get('/',[homeController::class,'index'],[[AuthenticationMiddleware::class,'mustLogin']]);
 
+Router::get('/login',[userController::class,'login'],[[AuthenticationMiddleware::class,'notLogin']]);
+Router::post('/login',[userController::class,'postLogin'],[[AuthenticationMiddleware::class,'notLogin']]);
+
+Router::get('/register',[userController::class,'register'],[[AuthenticationMiddleware::class,'notLogin']]);
+Router::post('/register',[userController::class,'postRegister'],[[AuthenticationMiddleware::class,'notLogin']]);
+
+Router::get('/logout',[userController::class,'logout'],[[AuthenticationMiddleware::class,'mustLogin']]);
+
+Router::run();
