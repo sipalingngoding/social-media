@@ -20,7 +20,7 @@
                         }
                         if(isset($data['inputs_register'])) $inputs = $data['inputs_register'];
                     ?>
-                    <form method="post">
+                    <form method="post" action="/register">
                         <div class="form-group">
                             <label for="email">Email</label>
                             <input type="email" class="form-control <?= $css['email'] ?? "" ?>" id="email" name="email" value="<?=$inputs['email'] ?? "" ?>">

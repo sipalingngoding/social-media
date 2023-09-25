@@ -14,7 +14,7 @@ class HelperTest extends TestCase
 
     public function testSanitize():void
     {
-        $inputs = ['email'=>'diory@gmail<script></script>','age'=>'21dsfd'];
+        $inputs = ['email'=>'diory@gmail<js></js>','age'=>'21dsfd'];
         $result = Helper::sanitize($inputs,['email'=>'email','age'=>'int']);
         self::assertCount(2,$result);
         self::assertArrayHasKey('email',$result);
@@ -27,7 +27,7 @@ class HelperTest extends TestCase
 
     public function testValidateSampleOne():void
     {
-        $inputs = ['username'=>'diory','email'=>'diory@gmail<script></script>','password'=>'diory123','confPassword'=>'Diory12'];
+        $inputs = ['username'=>'diory','email'=>'diory@gmail<js></js>','password'=>'diory123','confPassword'=>'Diory12'];
         $errors = Helper::validate($inputs,['username'=>'required | between(8,20)','email'=>'required | email','password'=>'required | secure','confPassword'=>'required | same(password)']);
         self::assertCount(4,$errors);
         self::assertArrayHasKey('email',$errors);

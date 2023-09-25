@@ -4,15 +4,15 @@ namespace SipalingNgoding\MVC\libs;
 
 use PHPUnit\Framework\TestCase;
 use SipalingNgoding\MVC\app\Database;
-use SipalingNgoding\MVC\repository\userRepository;
+use SipalingNgoding\MVC\repository\UserRepository;
 
 class TokenizeTest extends TestCase
 {
-    private userRepository $userRepository;
+    private UserRepository $userRepository;
     protected function setUp(): void
     {
         Database::getConnection();
-        $userRepository = new userRepository(Database::$conn);
+        $userRepository = new UserRepository(Database::$conn);
         $this->userRepository = $userRepository;
         $userRepository->deleteAll();
         $userRepository->insertUserTest();

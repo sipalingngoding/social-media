@@ -4,7 +4,7 @@ namespace SipalingNgoding\MVC\repository;
 
 use SipalingNgoding\MVC\model\User;
 
-class userRepository
+class UserRepository
 {
     private \PDO $conn;
 
@@ -41,10 +41,10 @@ class userRepository
         return $this->conn->lastInsertId();
     }
 
-    public function update(User $user) : true
+    public function update(User $user, int $userId) : true
     {
-        $PDOStatement = $this->conn->prepare("UPDATE users SET email= ?, password=?, full_name =?,address = ?");
-        $PDOStatement->execute([$user->email,$user->password,$user->full_name,$user->address]);
+        $PDOStatement = $this->conn->prepare("UPDATE users SET email= ?, password=?, full_name =?,address = ?, photo = ? WHERE id=?");
+        $PDOStatement->execute([$user->email,$user->password,$user->full_name,$user->address, $user->photo, $userId]);
         return true;
     }
 
@@ -65,6 +65,7 @@ class userRepository
     public function insertUserTest():void
     {
         $this->conn->exec("INSERT INTO users(email,password,full_name,address) VALUES ('diory@gmail.com','Diory123?','Diory Pribadi Sinaga','Bandung')");
+
         $this->conn->exec("INSERT INTO users(email,password,full_name,address) VALUES ('budiman@gmail.com','Budiman123?','Budiman Aja','Jakarta')");
     }
 

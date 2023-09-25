@@ -10,7 +10,7 @@ class Tokenize
 {
     public static function secretKey()
     {
-        $dotenv = Dotenv::createImmutable(__DIR__."/../../");
+        $dotenv = Dotenv::createImmutable(__DIR__);
         $dotenv->safeLoad();
         return $_ENV['SECRET_KEY'];
     }

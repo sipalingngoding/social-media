@@ -7,7 +7,7 @@
                 </div>
                 <div class="card-body">
                     <?php \SipalingNgoding\MVC\libs\Flash::flash(); ?>
-                    <form method="post">
+                    <form method="post" action="/login">
                         <div class="form-group">
                             <label for="email">Email</label>
                             <input type="email" class="form-control" id="email" name="email" value="<?=$inputs['email'] ?? "" ?>">

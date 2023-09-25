@@ -49,7 +49,8 @@ class Router
                 return;
             }
         }
-        echo "Router Not Found";
         http_response_code(404);
+        echo "<title>Route Not Found</title>";
+        echo "Route Not Found";
     }
 }

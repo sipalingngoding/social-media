@@ -191,6 +191,34 @@ class Helper{
     }
 
 
+    static function upload(string $name, float $size, array $type, &$errors, bool $user = false): bool|string
+    {
+        $check = isset($_FILES[$name]) && $_FILES[$name]['size'] > 0;
+        if (!$check) return false;
+
+        $dir = $user ? __DIR__ . "/../../public/uploads/user" : __DIR__ . "/../../public/uploads";
+        $file = $_FILES[$name];
+
+        if ($file['error'] === UPLOAD_ERR_OK) {
+            if (!in_array($file['type'], $type)) {
+                $errors['upload'] = 'Tipe file tidak sesuai';
+                return false;
+            }
+
+            if ($file['size'] > $size * 1024 * 1024) {
+                $errors['upload'] = "File terlalu besar! maksimal $size mb";
+                return false;
+            }
+
+            $name = time() . "_" . basename($file['name']);
+            move_uploaded_file($file['tmp_name'], "$dir/$name");
+//            Flash::flash('upload', "File berhasil diupload", 'success');
+            return $name;
+        }
+        Flash::flash('upload', "Terjadi Error", 'error');
+        return false;
+    }
+
     static function check_required($data):bool
     {
         return is_string($data) ? trim($data) !== '' : ($data !== '' && $data !== null) ;

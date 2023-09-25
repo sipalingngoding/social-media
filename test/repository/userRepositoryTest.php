@@ -10,11 +10,11 @@ use function PHPUnit\Framework\assertTrue;
 
 class userRepositoryTest extends TestCase
 {
-    private userRepository $userRepository;
+    private UserRepository $userRepository;
     protected function setUp(): void
     {
         Database::getConnection();
-        $this->userRepository  = new userRepository(Database::$conn);
+        $this->userRepository  = new UserRepository(Database::$conn);
         $this->userRepository->deleteAll();
         $this->userRepository->insertUserTest();
     }
@@ -71,8 +71,8 @@ class userRepositoryTest extends TestCase
     public function testUpdate():void
     {
         $userUpdate = new User('diory@gmail.com','Diory123?','Diory Pribadi Sinaga','Bekasi');
-        self::assertTrue($this->userRepository->update($userUpdate));
         $id = $this->userRepository->lastUserId() - 1;
+        self::assertTrue($this->userRepository->update($userUpdate,$id));
         $user = $this->userRepository->findById($id);
         assertSame('Bekasi',$user['address']);
         assertSame('diory@gmail.com',$user['email']);

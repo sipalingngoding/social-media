@@ -7,13 +7,13 @@ use SipalingNgoding\MVC\Exception\NotFoundError;
 use SipalingNgoding\MVC\libs\Helper;
 use SipalingNgoding\MVC\libs\Tokenize;
 use SipalingNgoding\MVC\model\User;
-use SipalingNgoding\MVC\repository\userRepository;
+use SipalingNgoding\MVC\repository\UserRepository;
 use SipalingNgoding\MVC\validator;
 
-class userService
+class UserService
 {
-    private userRepository $userRepository;
-    public function __construct(userRepository $userRepository)
+    private UserRepository $userRepository;
+    public function __construct(UserRepository $userRepository)
     {
         $this->userRepository = $userRepository;
     }
@@ -83,6 +83,39 @@ class userService
             setcookie('cookie','',1);
             return null;
         }
+    }
+
+
+    /**
+     * @throws ClientError
+     */
+    public function update(int $userId, ?string $photo):true
+    {
+        [$inputs,$errors] = validator\User::validateUpdate();
+        $user = $this->getById($userId);
+         if (sizeof($errors)>0) {
+             throw new ClientError(array_values($errors)[0]);
+         };
+        if($photo !== null) unlink(__DIR__.'/../../public/uploads/user/'.$user['photo']);
+
+         $userUpdate  = new User($inputs['email'],$user['password'],$inputs['full_name'],$inputs['address'],$photo ?? $user['photo']);
+         return $this->userRepository->update($userUpdate,$userId);
+    }
+
+    /**
+     * @throws ClientError
+     * @throws NotFoundError
+     */
+    public function updatePassword(int $userId):true
+    {
+        [$inputs,$errors] = validator\User::validatePassword();
+        if (sizeof($errors)>0) throw new ClientError(array_values($errors)[0]);
+
+        $user = $this->getById($userId);
+        $check = password_verify($inputs['oldPassword'],$user['password']);
+        if(!$check) throw new ClientError('old password is wrong');
+        $userUpdate = new User($user['email'],password_hash($inputs['newPassword'],PASSWORD_DEFAULT),$user['full_name'],$user['address'],$user['photo']);
+        return $this->userRepository->update($userUpdate,$userId);
     }
 
 }

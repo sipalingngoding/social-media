@@ -6,21 +6,21 @@ use JetBrains\PhpStorm\NoReturn;
 use SipalingNgoding\MVC\app\Database;
 use SipalingNgoding\MVC\libs\Flash;
 use SipalingNgoding\MVC\libs\Helper;
-use SipalingNgoding\MVC\repository\userRepository;
-use SipalingNgoding\MVC\service\userService;
+use SipalingNgoding\MVC\repository\UserRepository;
+use SipalingNgoding\MVC\service\UserService;
 
 class AuthenticationMiddleware
 {
-    private userService $userService;
+    private UserService $userService;
     public function __construct()
     {
-        $this->userService = new userService(new userRepository(Database::$conn));
+        $this->userService = new UserService(new UserRepository(Database::$conn));
     }
 
     #[NoReturn] public function notLogin():void
     {
         $user = $this->userService->current();
-        if($user !== null) Helper::redirect_with_message('/','Anda sudah login!. Logout terlebih dahulu','warning');
+        if($user !== null) Helper::redirect('/');
     }
 
     #[NoReturn] public function mustLogin():void
